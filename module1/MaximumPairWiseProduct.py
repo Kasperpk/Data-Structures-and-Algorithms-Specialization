@@ -1,6 +1,6 @@
 def MaximumPairWise(n,numbers):
     '''
-    Adds two numbers
+    Finds the product of the two maximum numbers in a collection
     '''
     if n >= 2 and n <= 200000:
         current_number = 0
