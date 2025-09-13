@@ -44,23 +44,6 @@ def points_and_segments_fast(points, segments):
     return result
 
 
-def points_and_segments_naive(points, segments):
-    """
-    Naive approach for comparison/testing.
-    
-    Time complexity: O(n * m)
-    Space complexity: O(1)
-    """
-    result = []
-    for point in points:
-        count = 0
-        for start, end in segments:
-            if start <= point <= end:
-                count += 1
-        result.append(count)
-    return result
-
-
 # Input/Output handling for Coursera format
 if __name__ == "__main__":
     # Read input: first line has number of segments and points
