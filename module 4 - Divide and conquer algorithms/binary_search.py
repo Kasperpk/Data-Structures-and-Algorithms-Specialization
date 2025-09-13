@@ -1,32 +1,3 @@
-def binary_search(arr, target):
-    """
-    Binary search algorithm for finding a target in a sorted array.
-    
-    Args:
-        arr: Sorted array of integers
-        target: Integer to search for
-    
-    Returns:
-        Index of target if found, -1 otherwise
-        
-    Time complexity: O(log n)
-    Space complexity: O(1)
-    """
-    left, right = 0, len(arr) - 1
-    
-    while left <= right:
-        mid = left + (right - left) // 2
-        
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid - 1
-            
-    return -1
-
-
 def binary_search_with_duplicates(arr, target):
     """
     Binary search that finds the first occurrence of target in array with duplicates.
