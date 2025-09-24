@@ -31,6 +31,6 @@ def brackets_in_code(text):
     return "Success"
 
 if '__name__' == '__main__':
-  text = input()
-  result = brackets_in_code(text)
-  print(result)
+      text = input()
+      result = brackets_in_code(text)
+      print(result)
