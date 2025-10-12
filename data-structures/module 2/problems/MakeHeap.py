@@ -1,38 +1,45 @@
-def min_heapify(n,integers):
-    '''
-    Function to create heap from array of integers 
-    '''
-    def heapify(integers, i, n):
-        smallest = i
-        # finding childs of the parent
-        left = 2*i+1
-        right = 2*i+2
-
-        if left < n and integers[left] < integers[smallest]:
-            # check if left child is less than current value at parent index
-            smallest = left 
+def build_heap(data):
+    """
+    Build a min-heap from an array and return the sequence of swaps.
+    """
+    swaps = []
+    size = len(data)
+    
+    def sift_down(i):
+        min_index = i
+        left = 2 * i + 1
+        right = 2 * i + 2
+        
+        if left < size and data[left] < data[min_index]:
+            min_index = left
             
-        if right < n and integers[right] < integers[smallest]:
-            # check if right child is less than current value at parent index
-            smallest = right
+        if right < size and data[right] < data[min_index]:
+            min_index = right
             
-        # if the smallest value is not the parent index, then swap with the smallest value
-        if smallest != i:
-            temp = integers[i]
-            integers[i] = integers[smallest]
-            integers[smallest] = temp
-            heapify(integers, smallest, n)
+        if i != min_index:
+            data[i], data[min_index] = data[min_index], data[i]
+            swaps.append((i, min_index))
+            sift_down(min_index)
+    
+    # Build heap by sifting down each non-leaf node
+    for i in range(size // 2, -1, -1):
+        sift_down(i)
+        
+    return swaps
 
-    for i in range(n//2 - 1,-1,-1): 
-        heapify(integers, i, n)
-
-    return integers
-
-if __name__ == '__main__':
+def main():
+    # Read input
     n = int(input())
-    integers = []
-    for i in range(0,n):
-        integer = int(input())
-        integers.append(integer)
-    result=(min_heapify(n, integers))
-    print(result)
+    data = list(map(int, input().split()))
+    assert len(data) == n
+    
+    # Generate swaps to build min heap
+    swaps = build_heap(data)
+    
+    # Output results
+    print(len(swaps))
+    for i, j in swaps:
+        print(i, j)
+
+if __name__ == "__main__":
+    main()

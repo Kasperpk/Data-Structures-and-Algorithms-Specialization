@@ -9,46 +9,55 @@ def merge_tables(n, m, rows, merges):
     Returns:
         list of maximum table sizes after each merge operation
     """
-    # Initialize with 0-based indexing
+    # Initialize disjoint set data structure
     parent = list(range(n))  # Each table points to itself initially
-    size = rows.copy()       # Current size of each table
-    max_table_size = max(rows)  # Track maximum size
+    rank = [0] * n          # Rank for union by rank optimization
+    size = rows.copy()      # Current size of each table
+    max_size = max(rows)    # Track maximum size
     
-    def find(table):
-        # Find set representative with path compression
-        # Using 0-based indexing, no need for -1 adjustments
-        if table != parent[table]:
-            parent[table] = find(parent[table])  # Path compression
-        return parent[table]
+    def find(i):
+        """Find set representative with path compression"""
+        if i != parent[i]:
+            parent[i] = find(parent[i])  # Path compression
+        return parent[i]
     
-    def union(destination, source):
-        nonlocal max_table_size
+    def merge(destination, source):
+        """
+        Merge source table into destination table.
+        Returns the current maximum table size.
+        """
+        nonlocal max_size
         
-        # Find real representatives of the sets
-        real_dest = find(destination - 1)  # Convert to 0-based index
-        real_source = find(source - 1)
+        # Convert to 0-based indexing and find real representatives
+        dest_id = find(destination - 1)
+        src_id = find(source - 1)
         
-        if real_dest == real_source:
-            return max_table_size  # Already merged
-        
-        # Merge source into destination
-        parent[real_source] = real_dest
-        
-        # Update sizes
-        size[real_dest] += size[real_source]
-        size[real_source] = 0
-        
-        # Update maximum size if necessary
-        max_table_size = max(max_table_size, size[real_dest])
-        
-        return max_table_size
+        # If tables are already in same set, no merge needed
+        if dest_id == src_id:
+            return max_size
+            
+        # Merge smaller rank tree into larger rank tree
+        if rank[dest_id] > rank[src_id]:
+            parent[src_id] = dest_id
+            size[dest_id] += size[src_id]
+            size[src_id] = 0
+        else:
+            parent[dest_id] = src_id
+            size[src_id] += size[dest_id]
+            size[dest_id] = 0
+            if rank[dest_id] == rank[src_id]:
+                rank[src_id] += 1
+                
+        # Update maximum size
+        max_size = max(max_size, size[src_id], size[dest_id])
+        return max_size
     
-    # Process all merges and collect results
+    # Process all merge operations
     result = []
     for dest, source in merges:
-        current_max = union(dest, source)
-        result.append(current_max)
-    
+        max_after_merge = merge(dest, source)
+        result.append(max_after_merge)
+        
     return result
 
 if __name__ == "__main__":
