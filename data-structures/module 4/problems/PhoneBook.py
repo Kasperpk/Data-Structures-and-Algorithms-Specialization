@@ -9,8 +9,8 @@ class PhoneBook:
         self.phone_book[number] = name
 
     def delete_number(self, number):
-
-        self.phone_book.pop(number)
+        if self.phone_book[number]:
+            self.phone_book.pop(number)
 
     def find_contact(self, number):
 

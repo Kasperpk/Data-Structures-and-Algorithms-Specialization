@@ -20,15 +20,20 @@ class HashTableWithChain:
         string = query.split()[1]  # get the string part from the query
         hash_value = self.compute_hash(string)
         if string not in self.hash_table[hash_value]:
-            self.hash_table[hash_value].insert(0, string)  # insert at beginning of chain
+            self.hash_table[hash_value].append(string)  # append at end of chain
 
     def check(self, query):
         """Print all strings in given chain, in reverse order of insertion"""
         i = int(query.split()[1])  # get the index from query
         if 0 <= i < self.buckets:
-            print(' '.join(self.hash_table[i]))
+            # Print chain in reverse order
+            chain = self.hash_table[i]
+            if chain:
+                print(' '.join(reversed(chain)))
+            else:
+                print()
         else:
-            print('')
+            print()
 
     def find(self, query):
         """Check if a string exists in the hash table"""
