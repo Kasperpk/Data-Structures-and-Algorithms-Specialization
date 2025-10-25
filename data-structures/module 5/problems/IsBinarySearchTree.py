@@ -1,55 +1,53 @@
 class Node:
-
     def __init__(self, key):
-
         self.key = key
         self.left = None
         self.right = None
 
-def is_binary_search_tree(tree,root,bst=True):
-
-    # if leaf node is reached then return
-    if root.left == -1 and root.right == -1:
-        return
+def is_binary_search_tree(tree, index, min_val=float('-inf'), max_val=float('inf')):
+    """
+    Check if tree is a valid BST using min/max bounds approach.
     
-    # if both child nodes are not -1 then check if BST condition is met
-    if root.left != -1 and root.right != -1:
-        bst = tree[root.left].key < root.key and tree[root.right].key > root.key
+    Args:
+        tree: List of nodes
+        index: Current node index
+        min_val: Minimum allowed value for current node
+        max_val: Maximum allowed value for current node
     
-    # if only right node is not leaf check BST condition on that
-    elif root.left == -1 and root.right != -1:
-        bst = tree[root.right].key > root.key
+    Returns:
+        True if valid BST, False otherwise
+    """
+    # Empty tree or reached leaf (-1 index)
+    if index == -1:
+        return True
     
-    # if only left condition check BST condition on that
-    elif root.left != -1 and root.right == -1:
-        bst = tree[root.left].key < root.key
-
-    # if any of the bst is false return Incorrect  
-    if bst == False:
-        return print("INCORRECT")
+    node = tree[index]
     
-    # else recursively call the child nodes
-    is_binary_search_tree(tree, tree[root.left], bst)
-    is_binary_search_tree(tree, tree[root.right], bst)
-
-    return bst
+    # Check if current node violates BST property
+    if node.key < min_val or node.key >= max_val:
+        return False
+    
+    # Recursively check left and right subtrees
+    # Left subtree: all values must be < node.key
+    # Right subtree: all values must be >= node.key (allowing duplicates on right)
+    return (is_binary_search_tree(tree, node.left, min_val, node.key) and
+            is_binary_search_tree(tree, node.right, node.key, max_val))
 
 if __name__ == '__main__':
-    
     n = int(input())
-    lines = [list(map(int, input().split())) for _ in range(0,n)]
-
-    tree = []
-
-    for line in lines:
-        node = Node(line[0])
-        node.left = line[1]
-        node.right = line[2]
-        tree.append(node)
     
-
-    result = is_binary_search_tree(tree, tree[0])
-    if result == True:
+    if n == 0:
         print('CORRECT')
     else:
-        print("INCORRECT")
+        tree = []
+        for _ in range(n):
+            key, left, right = map(int, input().split())
+            node = Node(key)
+            node.left = left
+            node.right = right
+            tree.append(node)
+        
+        if is_binary_search_tree(tree, 0):
+            print('CORRECT')
+        else:
+            print('INCORRECT')

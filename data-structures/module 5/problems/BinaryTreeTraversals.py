@@ -90,6 +90,11 @@ if __name__ == '__main__':
         tree.append(node)
     
     # Perform and print the three traversals
-    print(' '.join(map(str, in_order_traversal(tree, tree[0], []))))
-    print(' '.join(map(str, pre_order_traversal(tree, tree[0], []))))
-    print(' '.join(map(str, post_order_traversal(tree, tree[0], []))))
+    if n > 0:
+        print(' '.join(map(str, in_order_traversal(tree, tree[0], []))))
+        print(' '.join(map(str, pre_order_traversal(tree, tree[0], []))))
+        print(' '.join(map(str, post_order_traversal(tree, tree[0], []))))
+    else:
+        print()
+        print()
+        print()

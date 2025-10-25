@@ -174,3 +174,6 @@ def process_queries():
     for _ in range(n):
         query = input().strip()
         tree.process_query(query)
+
+if __name__ == '__main__':
+    process_queries()
