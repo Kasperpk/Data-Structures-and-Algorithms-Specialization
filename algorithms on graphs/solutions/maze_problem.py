@@ -27,24 +27,23 @@ def maze_problem(vertices, u, v, visited_nodes=None):
             if vertex not in adj_list[neighbor]:
                 adj_list[neighbor].append(vertex)
 
-        visited = set()
+    visited = set()
 
-        def dfs(node):
-            """Explore all nodes in the current connected component"""
-            visited.add(node)
-            for neighbor in adj_list[node]:
-                if neighbor not in visited:
-                    dfs(neighbor)
+    def dfs(node):
+        """Explore all nodes in the current connected component"""
+        visited.add(node)
+        for neighbor in adj_list[node]:
+            if neighbor not in visited:
+                dfs(neighbor)
+    
+    for vertex in adj_list[u]:
+        if vertex not in visited:
+            dfs(vertex)
 
-        for vertex in vertices[u]:
-            if vertex not in visited:
-                print(visited)
-                dfs(vertex)
-
-        if v in visited:
-            return 1
-        else:
-            return 0
+    if v in visited:
+        return 1
+    else:
+        return 0
 
 if __name__ == '__main__':
     # Read number of vertices (n) and edges (m)
