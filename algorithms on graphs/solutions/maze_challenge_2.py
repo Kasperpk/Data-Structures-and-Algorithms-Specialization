@@ -42,3 +42,20 @@ def number_of_connected_components_correct(vertices, m):
             num_components += 1
     
     return num_components
+
+if __name__ == '__main__':
+    # Read number of vertices (n) and edges (m)
+    n, m = map(int, input().split())
+    
+    # Initialize vertices dictionary
+    vertices = {i: [] for i in range(1, n + 1)}
+    
+    # Read m edges
+    for _ in range(m):
+        # Read edge vertices a, b
+        a, b = map(int, input().split())
+        vertices[a].append(b)
+        vertices[b].append(a)  # Assuming undirected graph
+    
+    # Print number of connected components
+    print(number_of_connected_components_correct(vertices, n))
