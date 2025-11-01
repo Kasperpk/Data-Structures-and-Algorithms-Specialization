@@ -22,8 +22,8 @@ def is_strongly_connected(vertices, n):
     if n == 0:
         return 1
     
-    # Find a vertex that exists in the graph (for graphs with isolated vertices)
-    start_vertex = 1
+    # Find the first available vertex in the graph
+    start_vertex = next(iter(vertices.keys()))
     
     def dfs(graph, start, visited):
         """Perform DFS and mark all reachable vertices"""
@@ -41,7 +41,7 @@ def is_strongly_connected(vertices, n):
         return 0
     
     # Create reversed graph
-    reversed_vertices = {i: [] for i in range(1, n + 1)}
+    reversed_vertices = {vertex: [] for vertex in vertices}
     for vertex in vertices:
         for neighbor in vertices[vertex]:
             reversed_vertices[neighbor].append(vertex)
